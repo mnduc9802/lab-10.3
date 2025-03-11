@@ -7,7 +7,7 @@ deploy_to_ec2:
   before_script:
     - apk add --no-cache openssh git docker-compose
   script:
-    - sudo apt update
+    - apt update
     - sudo apt-get install openssh-server -y
     - mkdir -p ~/.ssh
     - echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
