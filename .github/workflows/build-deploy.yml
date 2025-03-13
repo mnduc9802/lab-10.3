@@ -52,7 +52,9 @@ jobs:
             cd lab-10.3
             pwd
             git pull origin main
+            docker-compose down
+            docker-compose pull
             sudo docker-compose up -d
-          EOF
+          << EOF
       
   
