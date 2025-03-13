@@ -35,3 +35,24 @@ jobs:
       - name: Push Docker image to AWS ECR
         run: |
           docker push ${{ secrets.ECR_REPOSITORY }}:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Deploy NestJS
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~./ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@44.223.64.204 << EOF
+            ls
+            pwd
+            cd lab-10.3
+            pwd
+            git pull origin main
+            sudo docker-compose up -d
+          EOF
+      
+  
